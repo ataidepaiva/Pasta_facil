@@ -1,0 +1,30 @@
+PASTAFÁCIL — PROJETO C# PARA WINDOWS
+
+Esta entrega contém o código-fonte do aplicativo, não um executável pronto.
+Para compilar, use Windows e o SDK do .NET 8 instalado. Abra a pasta do projeto
+no Visual Studio 2022 com o componente de desenvolvimento para desktop .NET,
+ou dê dois cliques em GERAR-EXE.bat e aguarde a mensagem de conclusão.
+A compilação pode precisar de acesso à internet para obter componentes do .NET.
+
+O executável, quando a compilação tiver sucesso, ficará na pasta Publicado.
+A versão criada pelo botão é independente do runtime .NET, mas o SDK é necessário
+para compilar. O arquivo gerado é para Windows 64 bits.
+
+CRIAR PASTAS: cole células copiadas do Excel, marque se há cabeçalho, leia as
+colunas, selecione e ordene as desejadas. Escolha uma pasta existente, atualize
+a prévia e confirme a criação. Cada linha forma um caminho; células vazias
+nas colunas escolhidas devem ser preenchidas.
+
+COPIAR: adicione arquivos e pastas de destino. Opcionalmente informe o nome
+de uma subpasta existente em cada destino. Confira a prévia e a política para
+arquivos repetidos; confirme. A lista inteira de destinos recebe os arquivos;
+a seleção na lista serve somente para remoção. Para usar caminhos criados,
+gere a prévia na aba Criar pastas e depois clique em Usar pastas da prévia.
+Esta opção adiciona TODOS os caminhos existentes da prévia, inclusive níveis
+intermediários. Remova da lista os que não devem receber arquivos.
+
+Confira o relatório para identificar erros individuais. Teste primeiro com
+pastas e arquivos de exemplo. O aplicativo copia arquivos; não move nem apaga.
+
+O ícone do PastaFácil já está configurado no projeto. Depois de gerar o
+executável novamente, ele aparecerá no arquivo e na janela do aplicativo.
