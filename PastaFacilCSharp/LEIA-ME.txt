@@ -21,7 +21,6 @@ pastas manualmente ou remover destinos selecionados. A escolha de outro nível
 substitui a lista de destinos. O resumo informa a quantidade de pastas e arquivos.
 A opção Conferir cópia permite abrir cada pasta para ver os arquivos previstos.
 Se alguma pasta não puder ser criada, ela não será oferecida como destino.
-A subpasta opcional precisa existir em cada destino.
 
 Os resultados e eventuais erros são exibidos ao final de cada operação.
 Teste primeiro com pastas e arquivos de exemplo. O aplicativo copia arquivos; não move nem apaga.
