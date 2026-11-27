@@ -11,15 +11,15 @@ A versão criada pelo botão é independente do runtime .NET, mas o SDK é neces
 para compilar. O arquivo gerado é para Windows 64 bits.
 
 CRIAR PASTAS: cole células copiadas do Excel, marque se há cabeçalho, leia as
-colunas, selecione e ordene as desejadas. Escolha uma pasta existente, atualize
-a prévia e confirme a criação. Cada linha forma um caminho; células vazias
+colunas, selecione e ordene as desejadas. Escolha uma pasta existente e clique em
+Criar pastas. A prévia será atualizada antes da confirmação da criação. Cada linha forma um caminho; células vazias
 nas colunas escolhidas devem ser preenchidas.
 
 COPIAR: adicione arquivos e pastas de destino. Opcionalmente informe o nome
 de uma subpasta existente em cada destino. Confira a prévia e a política para
 arquivos repetidos; confirme. A lista inteira de destinos recebe os arquivos;
 a seleção na lista serve somente para remoção. Para usar caminhos criados,
-gere a prévia na aba Criar pastas e depois clique em Usar pastas da prévia.
+clique em Criar pastas para gerar a prévia e depois em Usar pastas da prévia.
 Esta opção adiciona TODOS os caminhos existentes da prévia, inclusive níveis
 intermediários. Remova da lista os que não devem receber arquivos.
 
