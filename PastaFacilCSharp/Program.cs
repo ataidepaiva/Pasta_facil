@@ -18,7 +18,6 @@ public sealed class MainForm : Form
     readonly CheckBox header = new() { Text = "A primeira linha contém os títulos das colunas", Checked = true, AutoSize = true };
     readonly CheckedListBox columns = new() { Dock = DockStyle.Fill, CheckOnClick = true };
     readonly TextBox root = new() { Dock = DockStyle.Fill, ReadOnly = true };
-    readonly TreeView preview = new() { Dock = DockStyle.Fill, ShowNodeToolTips = true };
     readonly ListBox files = new() { Dock = DockStyle.Fill, SelectionMode = SelectionMode.MultiExtended, HorizontalScrollbar = true };
     readonly ListBox destinations = new() { Dock = DockStyle.Fill, SelectionMode = SelectionMode.MultiExtended, HorizontalScrollbar = true };
     readonly TabControl tabs = new() { Dock = DockStyle.Fill, Padding = new Point(18, 8) };
@@ -75,7 +74,7 @@ public sealed class MainForm : Form
         Row(p,Caption("3. Escolha onde deseja Criar as Pastas"),SizeType.AutoSize,0);
         var dest = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2 }; dest.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100)); dest.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); dest.Controls.Add(root,0,0); dest.Controls.Add(Btn("Escolher…", (_,_) => PickRoot()),1,0); Row(p,dest,SizeType.AutoSize,0);
         var actions = Bar(); actions.Controls.Add(Btn("Criar pastas",(_,_) => CreateFolders(),true)); Row(p,actions,SizeType.AutoSize,0);
-        Row(p,Caption("4. Confira os caminhos antes de criar"),SizeType.AutoSize,0); Row(p,preview,SizeType.Percent,37); return page;
+        return page;
     }
     TabPage BuildCopy() {
         var page = new TabPage("Copiar arquivos"); var p = Grid(); page.Controls.Add(p);
@@ -129,7 +128,7 @@ public sealed class MainForm : Form
         if (index < 0) { Alert("Selecione uma pasta marcada como destino."); return; }
         destinations.Items.RemoveAt(index); RefreshDestinationTree();
     }
-    void ClearPreview() { planned.Clear(); preview.Nodes.Clear(); }
+    void ClearPreview() { planned.Clear(); }
     void Note(string s) { log.AppendText($"[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] {s}{Environment.NewLine}"); status.Text=s; }
     void Alert(string s) => MessageBox.Show(this,s,"PastaFácil",MessageBoxButtons.OK,MessageBoxIcon.Information);
     void PickRoot() { using var d=new FolderBrowserDialog { Description="Escolha onde deseja Criar as Pastas" }; if(d.ShowDialog()==DialogResult.OK) root.Text=d.SelectedPath; }
@@ -143,23 +142,7 @@ public sealed class MainForm : Form
     bool ReadColumns() { try { var all=ParseTsv(input.Text); if(all.Count==0 || (header.Checked && all.Count<2)) throw new Exception("Cole pelo menos uma linha de dados."); int width=all.Max(x=>x.Length); names=Enumerable.Range(0,width).Select(i=>header.Checked && i<all[0].Length && !string.IsNullOrWhiteSpace(all[0][i]) ? all[0][i].Trim() : $"Coluna {i+1}").ToArray(); rows=all.Skip(header.Checked?1:0).Select(r=>Enumerable.Range(0,width).Select(i=>i<r.Length?r[i]:"").ToArray()).ToList(); order=Enumerable.Range(0,width).ToList(); columns.Items.Clear(); foreach(int i in order) columns.Items.Add($"{i+1}. {names[i]}",true); dirty=false; ClearPreview(); status.Text=$"{rows.Count} linhas e {width} colunas identificadas."; return true; } catch(Exception e) { Alert(e.Message); return false; } }
     void MoveColumn(int delta) { int i=columns.SelectedIndex,j=i+delta; if(i<0||j<0||j>=order.Count)return; var state=Enumerable.Range(0,columns.Items.Count).Select(columns.GetItemChecked).ToList(); (order[i],order[j])=(order[j],order[i]); (state[i],state[j])=(state[j],state[i]); columns.Items.Clear(); for(int k=0;k<order.Count;k++) columns.Items.Add($"{order[k]+1}. {names[order[k]]}",state[k]); columns.SelectedIndex=j; ClearPreview(); }
     static string Name(string raw) { string n=raw.Trim(); if(n.Length==0||n=="."||n==".."||n.EndsWith('.')||n.IndexOfAny(Path.GetInvalidFileNameChars())>=0||Regex.IsMatch(n,@"^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?$",RegexOptions.IgnoreCase)) throw new Exception($"Nome de pasta inválido: '{raw}'"); return n; }
-    bool Preview() { try { if(dirty && !ReadColumns())return false; if(!Directory.Exists(root.Text))throw new Exception("Escolha uma pasta principal existente."); var selected=Enumerable.Range(0,order.Count).Where(i=>columns.GetItemChecked(i)).Select(i=>order[i]).ToArray(); if(selected.Length==0)throw new Exception("Marque ao menos uma coluna."); var paths=new HashSet<string>(StringComparer.OrdinalIgnoreCase); for(int r=0;r<rows.Count;r++) { string p=root.Text; try { foreach(int i in selected) { p=Path.Combine(p,Name(rows[r][i])); paths.Add(p); } } catch(Exception e) { throw new Exception($"Linha {r+(header.Checked?2:1)}: {e.Message}"); } } planned=paths.OrderBy(p=>p.Length).ThenBy(p=>p,StringComparer.OrdinalIgnoreCase).ToList(); BuildCreationTree(); status.Text=$"{planned.Count} caminhos; {planned.Count(Directory.Exists)} já existem."; return true; } catch(Exception e) { ClearPreview(); Alert(e.Message); return false; } }
-    void BuildCreationTree() {
-        preview.BeginUpdate(); preview.Nodes.Clear();
-        var nodes = new Dictionary<string,TreeNode>(StringComparer.OrdinalIgnoreCase);
-        foreach(string path in planned) {
-            string full = Path.GetFullPath(path);
-            string parent = Path.GetDirectoryName(full) ?? "";
-            string name = Path.GetFileName(full);
-            TreeNode node;
-            if(nodes.TryGetValue(parent,out var parentNode)) node=parentNode.Nodes.Add(name);
-            else node=preview.Nodes.Add(name);
-            node.ToolTipText=full+(Directory.Exists(full)?" — já existe":" — será criada");
-            nodes[full]=node;
-        }
-        foreach(TreeNode node in preview.Nodes) node.Expand();
-        preview.EndUpdate();
-    }
+    bool Preview() { try { if(dirty && !ReadColumns())return false; if(!Directory.Exists(root.Text))throw new Exception("Escolha uma pasta principal existente."); var selected=Enumerable.Range(0,order.Count).Where(i=>columns.GetItemChecked(i)).Select(i=>order[i]).ToArray(); if(selected.Length==0)throw new Exception("Marque ao menos uma coluna."); var paths=new HashSet<string>(StringComparer.OrdinalIgnoreCase); for(int r=0;r<rows.Count;r++) { string p=root.Text; try { foreach(int i in selected) { p=Path.Combine(p,Name(rows[r][i])); paths.Add(p); } } catch(Exception e) { throw new Exception($"Linha {r+(header.Checked?2:1)}: {e.Message}"); } } planned=paths.OrderBy(p=>p.Length).ThenBy(p=>p,StringComparer.OrdinalIgnoreCase).ToList(); status.Text=$"{planned.Count} caminhos; {planned.Count(Directory.Exists)} já existem."; return true; } catch(Exception e) { ClearPreview(); Alert(e.Message); return false; } }
     void CreateFolders() { if(!Preview())return; if(MessageBox.Show(this,$"Criar {planned.Count} caminhos em:\n{root.Text}?\n\nPastas existentes serão mantidas.","Confirmar criação",MessageBoxButtons.YesNo,MessageBoxIcon.Question)!=DialogResult.Yes)return; log.Clear(); int created=0,existing=0,errors=0;
         var successful = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         int[] selectedColumns = Enumerable.Range(0, order.Count).Where(i => columns.GetItemChecked(i)).Select(i => order[i]).ToArray();
