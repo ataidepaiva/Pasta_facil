@@ -10,18 +10,18 @@ O executável, quando a compilação tiver sucesso, ficará na pasta Publicado.
 A versão criada pelo botão é independente do runtime .NET, mas o SDK é necessário
 para compilar. O arquivo gerado é para Windows 64 bits.
 
-CRIAR PASTAS: cole células copiadas do Excel, marque se há cabeçalho, leia as
-colunas, selecione e ordene as desejadas. Escolha uma pasta existente e clique em
-Criar pastas. A prévia será atualizada antes da confirmação da criação. Cada linha forma um caminho; células vazias
-nas colunas escolhidas devem ser preenchidas.
+CRIAR PASTAS: cole células do Excel, leia e selecione as colunas na ordem
+desejada e escolha a pasta principal. Clique em Criar pastas e confirme.
+Após a criação, escolha se deseja copiar arquivos para essas pastas.
 
-COPIAR: adicione arquivos e pastas de destino. Opcionalmente informe o nome
-de uma subpasta existente em cada destino. Confira a prévia e a política para
-arquivos repetidos; confirme. A lista inteira de destinos recebe os arquivos;
-a seleção na lista serve somente para remoção. Para usar caminhos criados,
-clique em Criar pastas para gerar a prévia e depois em Usar pastas da prévia.
-Esta opção adiciona TODOS os caminhos existentes da prévia, inclusive níveis
-intermediários. Remova da lista os que não devem receber arquivos.
+COPIAR ARQUIVOS: esta aba também funciona separadamente. Adicione os arquivos
+e escolha o nível da estrutura criada: por exemplo, município, escola ou
+documentos. A árvore mostra as pastas de destino. Você também pode adicionar
+pastas manualmente ou remover destinos selecionados. A escolha de outro nível
+substitui a lista de destinos. O resumo informa a quantidade de pastas e arquivos.
+A opção Conferir cópia permite abrir cada pasta para ver os arquivos previstos.
+Se alguma pasta não puder ser criada, ela não será oferecida como destino.
+A subpasta opcional precisa existir em cada destino.
 
 Os resultados e eventuais erros são exibidos ao final de cada operação.
 Teste primeiro com pastas e arquivos de exemplo. O aplicativo copia arquivos; não move nem apaga.
