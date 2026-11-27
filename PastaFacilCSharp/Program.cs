@@ -72,7 +72,7 @@ public sealed class MainForm : Form
         var cols = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2 }; cols.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100)); cols.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,120));
         cols.Controls.Add(columns,0,0); var cb = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false };
         cb.Controls.Add(Btn("↑ Subir", (_,_) => MoveColumn(-1))); cb.Controls.Add(Btn("↓ Descer", (_,_) => MoveColumn(1))); cols.Controls.Add(cb,1,0); Row(p,cols,SizeType.Percent,25);
-        Row(p,Caption("3. Escolha a pasta principal"),SizeType.AutoSize,0);
+        Row(p,Caption("3. Escolha onde deseja Criar as Pastas"),SizeType.AutoSize,0);
         var dest = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2 }; dest.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100)); dest.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); dest.Controls.Add(root,0,0); dest.Controls.Add(Btn("Escolher…", (_,_) => PickRoot()),1,0); Row(p,dest,SizeType.AutoSize,0);
         var actions = Bar(); actions.Controls.Add(Btn("Criar pastas",(_,_) => CreateFolders(),true)); Row(p,actions,SizeType.AutoSize,0);
         Row(p,Caption("4. Confira os caminhos antes de criar"),SizeType.AutoSize,0); Row(p,preview,SizeType.Percent,37); return page;
@@ -132,7 +132,7 @@ public sealed class MainForm : Form
     void ClearPreview() { planned.Clear(); preview.Nodes.Clear(); }
     void Note(string s) { log.AppendText($"[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] {s}{Environment.NewLine}"); status.Text=s; }
     void Alert(string s) => MessageBox.Show(this,s,"PastaFácil",MessageBoxButtons.OK,MessageBoxIcon.Information);
-    void PickRoot() { using var d=new FolderBrowserDialog { Description="Escolha a pasta principal" }; if(d.ShowDialog()==DialogResult.OK) root.Text=d.SelectedPath; }
+    void PickRoot() { using var d=new FolderBrowserDialog { Description="Escolha onde deseja Criar as Pastas" }; if(d.ShowDialog()==DialogResult.OK) root.Text=d.SelectedPath; }
     // Excel places tab-separated data on the clipboard; quoted cells may contain tabs and newlines.
     static List<string[]> ParseTsv(string text) {
         var result=new List<string[]>(); var record=new List<string>(); var cell=new StringBuilder(); bool quote=false;
