@@ -23,8 +23,8 @@ gere a prévia na aba Criar pastas e depois clique em Usar pastas da prévia.
 Esta opção adiciona TODOS os caminhos existentes da prévia, inclusive níveis
 intermediários. Remova da lista os que não devem receber arquivos.
 
-Confira o relatório para identificar erros individuais. Teste primeiro com
-pastas e arquivos de exemplo. O aplicativo copia arquivos; não move nem apaga.
+Os resultados e eventuais erros são exibidos ao final de cada operação.
+Teste primeiro com pastas e arquivos de exemplo. O aplicativo copia arquivos; não move nem apaga.
 
 O ícone do PastaFácil já está configurado no projeto. Depois de gerar o
 executável novamente, ele aparecerá no arquivo e na janela do aplicativo.
