@@ -159,7 +159,6 @@ public sealed class MainForm : Form
         ResetLevelChoices(); destinations.Items.Clear(); RefreshDestinationTree();
         if(successful.Count>0 && MessageBox.Show(this,"Deseja copiar arquivos para essas pastas?","Próximo passo",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes) {
             tabs.SelectedIndex=1; levels.Focus();
-            Alert("Escolha os arquivos e o nível das pastas que receberão as cópias.");
         }
     }
     void AddFiles() { using var d=new OpenFileDialog { Multiselect=true, Title="Escolha os arquivos" }; if(d.ShowDialog()==DialogResult.OK) foreach(string f in d.FileNames) if(!files.Items.Cast<string>().Contains(f,StringComparer.OrdinalIgnoreCase))files.Items.Add(f); RefreshCopySummary(); }
