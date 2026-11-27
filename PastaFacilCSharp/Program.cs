@@ -79,11 +79,21 @@ public sealed class MainForm : Form
     TabPage BuildCopy() {
         var page = new TabPage("Copiar arquivos"); var p = Grid(); page.Controls.Add(p);
         Row(p,Caption("1. Escolha os arquivos que deseja copiar"),SizeType.AutoSize,0);
-        Row(p,files,SizeType.Percent,30);
-        var fb=Bar(); fb.Controls.Add(Btn("Adicionar arquivos",(_,_)=>AddFiles())); fb.Controls.Add(Btn("Remover selecionados",(_,_)=>{ RemoveSelected(files); RefreshCopySummary(); })); Row(p,fb,SizeType.AutoSize,0);
+        var fileLayout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };
+        fileLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        fileLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        var fileButtons = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, FlowDirection = FlowDirection.TopDown, WrapContents = false };
+        fileButtons.Controls.Add(Btn("Adicionar arquivos",(_,_)=>AddFiles()));
+        fileButtons.Controls.Add(Btn("Remover selecionados",(_,_)=>{ RemoveSelected(files); RefreshCopySummary(); }));
+        fileLayout.Controls.Add(fileButtons,0,0); fileLayout.Controls.Add(files,1,0);
+        Row(p,fileLayout,SizeType.Percent,30);
         Row(p,Caption("2. Onde os arquivos devem ser colocados?"),SizeType.AutoSize,0);
-        Row(p,levels,SizeType.AutoSize,0);
-        var db=Bar(); db.Controls.Add(Btn("Adicionar outra pasta",(_,_)=>AddDestination())); db.Controls.Add(Btn("Remover pasta selecionada",(_,_)=>RemoveDestination())); Row(p,db,SizeType.AutoSize,0);
+        var destinationBar = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, WrapContents = true };
+        levels.Dock = DockStyle.None; levels.Width = 250; levels.Margin = new Padding(3, 6, 8, 3);
+        destinationBar.Controls.Add(levels);
+        destinationBar.Controls.Add(Btn("Adicionar outra pasta",(_,_)=>AddDestination()));
+        destinationBar.Controls.Add(Btn("Remover pasta selecionada",(_,_)=>RemoveDestination()));
+        Row(p,destinationBar,SizeType.AutoSize,0);
         Row(p,copySummary,SizeType.AutoSize,0); Row(p,destinationTree,SizeType.Percent,70);
         Row(p,Caption("Se já existir um arquivo com o mesmo nome"),SizeType.AutoSize,0); conflict.Items.AddRange(new object[]{"Ignorar", "Manter os dois", "Substituir"}); conflict.SelectedIndex=0; Row(p,conflict,SizeType.AutoSize,0);
         var act=Bar(); act.Controls.Add(Btn("Conferir cópia",(_,_)=>CopyFiles(false))); act.Controls.Add(Btn("Copiar arquivos",(_,_)=>CopyFiles(true),true)); Row(p,act,SizeType.AutoSize,0);
