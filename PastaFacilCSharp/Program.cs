@@ -86,7 +86,8 @@ public sealed class MainForm : Form
         fileButtons.Controls.Add(Btn("Adicionar arquivos",(_,_)=>AddFiles()));
         fileButtons.Controls.Add(Btn("Remover selecionados",(_,_)=>{ RemoveSelected(files); RefreshCopySummary(); }));
         fileLayout.Controls.Add(fileButtons,0,0); fileLayout.Controls.Add(files,1,0);
-        Row(p,fileLayout,SizeType.Percent,30);
+        fileLayout.MinimumSize = new Size(0, 100);
+        Row(p,fileLayout,SizeType.Absolute,100);
         Row(p,Caption("2. Onde os arquivos devem ser colocados?"),SizeType.AutoSize,0);
         var destinationBar = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, WrapContents = true };
         levels.Dock = DockStyle.None; levels.Width = 250; levels.Margin = new Padding(3, 6, 8, 3);
@@ -94,7 +95,7 @@ public sealed class MainForm : Form
         destinationBar.Controls.Add(Btn("Adicionar outra pasta",(_,_)=>AddDestination()));
         destinationBar.Controls.Add(Btn("Remover pasta selecionada",(_,_)=>RemoveDestination()));
         Row(p,destinationBar,SizeType.AutoSize,0);
-        Row(p,copySummary,SizeType.AutoSize,0); Row(p,destinationTree,SizeType.Percent,70);
+        Row(p,copySummary,SizeType.AutoSize,0); Row(p,destinationTree,SizeType.Percent,100);
         Row(p,Caption("Se já existir um arquivo com o mesmo nome"),SizeType.AutoSize,0); conflict.Items.AddRange(new object[]{"Ignorar", "Manter os dois", "Substituir"}); conflict.SelectedIndex=0; Row(p,conflict,SizeType.AutoSize,0);
         var act=Bar(); act.Controls.Add(Btn("Conferir cópia",(_,_)=>CopyFiles(false))); act.Controls.Add(Btn("Copiar arquivos",(_,_)=>CopyFiles(true),true)); Row(p,act,SizeType.AutoSize,0);
         changingLevels = true; levels.Items.Add("Escolha um nível após criar pastas ou adicione uma pasta"); levels.SelectedIndex = 0; changingLevels = false;
