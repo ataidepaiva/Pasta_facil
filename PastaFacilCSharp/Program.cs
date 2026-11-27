@@ -67,7 +67,7 @@ public sealed class MainForm : Form
         cb.Controls.Add(Btn("↑ Subir", (_,_) => MoveColumn(-1))); cb.Controls.Add(Btn("↓ Descer", (_,_) => MoveColumn(1))); cols.Controls.Add(cb,1,0); Row(p,cols,SizeType.Percent,25);
         Row(p,Caption("3. Escolha a pasta principal"),SizeType.AutoSize,0);
         var dest = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2 }; dest.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100)); dest.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize)); dest.Controls.Add(root,0,0); dest.Controls.Add(Btn("Escolher…", (_,_) => PickRoot()),1,0); Row(p,dest,SizeType.AutoSize,0);
-        var actions = Bar(); actions.Controls.Add(Btn("Atualizar prévia",(_,_) => Preview(),true)); actions.Controls.Add(Btn("Criar pastas",(_,_) => CreateFolders(),true)); Row(p,actions,SizeType.AutoSize,0);
+        var actions = Bar(); actions.Controls.Add(Btn("Criar pastas",(_,_) => CreateFolders(),true)); Row(p,actions,SizeType.AutoSize,0);
         Row(p,Caption("4. Confira os caminhos antes de criar"),SizeType.AutoSize,0); Row(p,preview,SizeType.Percent,37); return page;
     }
     TabPage BuildCopy() {
